@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DateDisplay extends StatelessWidget {
   const DateDisplay({required this.date}) : assert(date != null);
@@ -14,7 +15,7 @@ class DateDisplay extends StatelessWidget {
       //   horizontal: 15,
       // ),
       child: Text(
-        date.toString(),
+        DateFormat.yMMMEd().format(date),
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 12,

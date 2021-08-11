@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PriceDisplay extends StatelessWidget {
-  const PriceDisplay({required this.amount}) : assert(amount != null);
+  const PriceDisplay({required this.amount});
 
   final double amount;
 
@@ -20,7 +20,7 @@ class PriceDisplay extends StatelessWidget {
         horizontal: 15,
       ),
       child: Text(
-        amount.toString(),
+        '₱${amount}',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20,
