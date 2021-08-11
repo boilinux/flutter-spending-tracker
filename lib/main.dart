@@ -3,6 +3,8 @@ import './transaction.dart';
 import 'displaylist/priceDisplay.dart';
 import 'displaylist/titleDisplay.dart';
 import 'displaylist/dateDisplay.dart';
+import 'chart/chart.dart';
+import 'form/formspending.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,6 +37,27 @@ class _MyAppState extends State<MyApp> {
     ),
   ];
 
+  var _titleInput;
+  var _amountInput;
+
+  void _titleInputFunc(String titleInput) {
+    setState(() {
+      _titleInput = titleInput;
+    });
+  }
+
+  void _amountInputFunc(String amountInput) {
+    _amountInput = amountInput;
+    setState(() {
+      _amountInput = amountInput;
+    });
+  }
+
+  void _submitFormSpending() {
+    print(_titleInput);
+    print(_amountInput);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,16 +66,14 @@ class _MyAppState extends State<MyApp> {
           title: Text('Flutter App'),
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                child: Text('Chart'),
-                color: Colors.blue,
-                elevation: 5,
-              ),
+            Chart(),
+            FormSpending(
+              inputTitleHandler: _titleInputFunc,
+              inputAmountHandler: _amountInputFunc,
+              submitFormHandler: _submitFormSpending,
             ),
             Container(
               width: double.infinity,
