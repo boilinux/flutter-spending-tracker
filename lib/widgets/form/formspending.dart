@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class FormSpending extends StatelessWidget {
-  final Function inputTitleHandler;
-  final Function inputAmountHandler;
+  final inputTitleController;
+  final inputAmountController;
   final VoidCallback submitFormHandler;
 
   FormSpending({
-    required this.inputTitleHandler,
-    required this.inputAmountHandler,
+    required this.inputTitleController,
+    required this.inputAmountController,
     required this.submitFormHandler,
   });
 
@@ -24,13 +24,13 @@ class FormSpending extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Title',
               ),
-              onChanged: (val) => inputTitleHandler(val),
+              controller: inputTitleController,
             ),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Amount',
               ),
-              onChanged: (val) => inputAmountHandler(val),
+              controller: inputAmountController,
             ),
             Container(
               child: TextButton(
