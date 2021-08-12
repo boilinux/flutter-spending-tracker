@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PriceDisplay extends StatelessWidget {
   const PriceDisplay({required this.amount});
 
-  final double amount;
+  final String amount;
 
   @override
   Widget build(BuildContext context) {

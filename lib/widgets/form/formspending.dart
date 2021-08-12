@@ -25,12 +25,15 @@ class FormSpending extends StatelessWidget {
                 labelText: 'Title',
               ),
               controller: inputTitleController,
+              onSubmitted: (_) => submitFormHandler(),
             ),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Amount',
               ),
               controller: inputAmountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => submitFormHandler(),
             ),
             Container(
               child: TextButton(

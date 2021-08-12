@@ -13,6 +13,26 @@ class Transactions extends StatefulWidget {
 }
 
 class _TransactionsState extends State<Transactions> {
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
+  void startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: FormSpending(
+            inputTitleController: titleController,
+            inputAmountController: amountController,
+            submitFormHandler: _submitFormSpending,
+          ),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
+  }
+
   final List<Transaction> _transactions = [
     Transaction(
       id: 't1',
@@ -34,27 +54,12 @@ class _TransactionsState extends State<Transactions> {
     ),
   ];
 
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
 
-  void _submitFormSpending() {
-    setState(() {
-      _transactions.add(
-        Transaction(
-          id: 't4',
-          title: titleController.text,
-          amount: double.parse(amountController.text),
-          date: DateTime.now(),
-        ),
-      );
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Container(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Chart(),
@@ -64,24 +69,26 @@ class _TransactionsState extends State<Transactions> {
             submitFormHandler: _submitFormSpending,
           ),
           Container(
+            height: 500,
             width: double.infinity,
-            child: Column(
-              children: _transactions.map((e) {
+            child: ListView.builder(
+              itemBuilder: (e, index) {
                 return Card(
                   child: Row(children: <Widget>[
                     PriceDisplay(
-                      amount: e.amount,
+                      amount: _transactions[index].amount.toStringAsFixed(2),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        TitleDisplay(title: e.title),
-                        DateDisplay(date: e.date),
+                        TitleDisplay(title: _transactions[index].title),
+                        DateDisplay(date: _transactions[index].date),
                       ],
                     ),
                   ]),
                 );
-              }).toList(),
+              },
+              itemCount: _transactions.length,
             ),
           ),
         ],
