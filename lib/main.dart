@@ -89,18 +89,21 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: Icon(
-      //   Icons.add_circle_sharp,
-      //   color: Colors.blue,
-      //   size: 50,
-      // ),
-      // floatingActionButtonLocation:
-      //     FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: IconButton(
+        icon: Icon(
+          Icons.add_circle_sharp,
+          size: 50,
+        ),
+        color: Colors.blue,
+        onPressed: () => _startAddNewTransaction(context),
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
       appBar: AppBar(
         title: Text('Flutter App'),
         actions: <Widget>[
           IconButton(
-            onPressed: () => _startAddNewTransaction(context),
+            onPressed: null,
             icon: Icon(
               Icons.add,
               color: Colors.white,
@@ -112,14 +115,9 @@ class _HomeState extends State<Home> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(),
-            // FormSpending(
-            //   inputTitleController: titleController,
-            //   inputAmountController: amountController,
-            //   submitFormHandler: _submitFormSpending,
-            // ),
+            // Chart(),
             Container(
-              height: 300,
+              height: 800,
               width: double.infinity,
               child: ListView.builder(
                 itemBuilder: (e, index) {
