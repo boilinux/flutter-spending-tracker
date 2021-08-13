@@ -11,8 +11,8 @@ class PriceDisplay extends StatelessWidget {
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.purple,
           width: 2,
+          color: Theme.of(context).primaryColor,
         ),
       ),
       margin: EdgeInsets.symmetric(
@@ -24,7 +24,7 @@ class PriceDisplay extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20,
-          color: Colors.purple,
+          color: Theme.of(context).primaryColor,
         ),
       ),
     );

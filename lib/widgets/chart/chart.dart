@@ -9,7 +9,6 @@ class Chart extends StatelessWidget {
       width: double.infinity,
       child: Card(
         child: Text('Chart'),
-        color: Colors.blue,
         elevation: 5,
       ),
     );

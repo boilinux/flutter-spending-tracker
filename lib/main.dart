@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import './models/transaction.dart';
 import './widgets/form/formspending.dart';
 import './widgets/chart/chart.dart';
-import './widgets/displaylist/dateDisplay.dart';
-import './widgets/displaylist/priceDisplay.dart';
-import './widgets/displaylist/titleDisplay.dart';
+import './widgets/transactions/transactions.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,8 +12,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App',
+      title: 'Personal Expenses',
       home: Home(),
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              title: TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+        appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  title: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                  ),
+                )),
+      ),
     );
   }
 }
@@ -28,27 +44,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
-
-  final List<Transaction> _transactions = [
-    Transaction(
-      id: 't1',
-      title: 'New shoes',
-      amount: 55.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'New shirt',
-      amount: 44.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't3',
-      title: 'New Jeans',
-      amount: 15.99,
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Transaction> _transactions = [];
 
   void _submitFormSpending() {
     double amount = double.parse(amountController.text);
@@ -67,6 +63,7 @@ class _HomeState extends State<Home> {
       amountController.clear();
       titleController.clear();
     });
+    Navigator.of(context).pop();
   }
 
   void _startAddNewTransaction(BuildContext ctx) {
@@ -93,57 +90,46 @@ class _HomeState extends State<Home> {
         icon: Icon(
           Icons.add_circle_sharp,
           size: 50,
+          color: Theme.of(context).primaryColor,
         ),
-        color: Colors.blue,
         onPressed: () => _startAddNewTransaction(context),
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text(
+          'Personal Expenses',
+        ),
         actions: <Widget>[
           IconButton(
             onPressed: null,
             icon: Icon(
               Icons.add,
-              color: Colors.white,
             ),
           ),
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            // Chart(),
-            Container(
-              height: 800,
-              width: double.infinity,
-              child: ListView.builder(
-                itemBuilder: (e, index) {
-                  return Card(
-                    child: Row(
-                      children: <Widget>[
-                        PriceDisplay(
-                          amount:
-                              _transactions[index].amount.toStringAsFixed(2),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            TitleDisplay(title: _transactions[index].title),
-                            DateDisplay(date: _transactions[index].date),
-                          ],
-                        ),
-                      ],
+        child: _transactions.isEmpty
+            ? Column(
+                children: <Widget>[
+                  Text(
+                    'No Transactions added yet!',
+                    style: Theme.of(context).textTheme.title,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 200,
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      fit: BoxFit.cover,
                     ),
-                  );
-                },
-                itemCount: _transactions.length,
-              ),
-            ),
-          ],
-        ),
+                  )
+                ],
+              )
+            : Transactions(_transactions),
       ),
     );
   }

@@ -15,11 +15,7 @@ class TitleDisplay extends StatelessWidget {
       // ),
       child: Text(
         title,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-          color: Colors.blue,
-        ),
+        style: Theme.of(context).textTheme.title,
       ),
     );
   }
