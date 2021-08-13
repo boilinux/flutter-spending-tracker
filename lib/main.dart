@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
       amountController.clear();
       titleController.clear();
     });
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
   }
 
   void _startAddNewTransaction(BuildContext ctx) {
@@ -112,6 +112,9 @@ class _HomeState extends State<Home> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          Chart(
+            recentTransactions: _transactions,
+          ),
           Container(
             child: _transactions.isEmpty
                 ? Column(

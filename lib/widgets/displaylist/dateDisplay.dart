@@ -8,18 +8,11 @@ class DateDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // padding: EdgeInsets.all(5),
-      // margin: EdgeInsets.symmetric(
-      //   vertical: 10,
-      //   horizontal: 15,
-      // ),
-      child: Text(
-        DateFormat.yMMMEd().format(date),
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-        ),
+    return Text(
+      DateFormat.yMMMEd().format(date),
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
       ),
     );
   }

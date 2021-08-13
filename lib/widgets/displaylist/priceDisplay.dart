@@ -7,24 +7,12 @@ class PriceDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 2,
-          color: Theme.of(context).primaryColor,
-        ),
-      ),
-      margin: EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: 15,
-      ),
-      child: Text(
-        '₱${amount}',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-          color: Theme.of(context).primaryColor,
+    return CircleAvatar(
+      radius: 30,
+      child: Padding(
+        padding: EdgeInsets.all(6),
+        child: FittedBox(
+          child: Text('\$${amount}'),
         ),
       ),
     );
