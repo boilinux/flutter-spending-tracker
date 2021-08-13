@@ -109,27 +109,32 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: _transactions.isEmpty
-            ? Column(
-                children: <Widget>[
-                  Text(
-                    'No Transactions added yet!',
-                    style: Theme.of(context).textTheme.title,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 200,
-                    child: Image.asset(
-                      'assets/images/waiting.png',
-                      fit: BoxFit.cover,
-                    ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            child: _transactions.isEmpty
+                ? Column(
+                    children: <Widget>[
+                      Text(
+                        'No Transactions added yet!',
+                        style: Theme.of(context).textTheme.title,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 200,
+                        child: Image.asset(
+                          'assets/images/waiting.png',
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    ],
                   )
-                ],
-              )
-            : Transactions(_transactions),
+                : Transactions(_transactions),
+          )
+        ],
       ),
     );
   }
