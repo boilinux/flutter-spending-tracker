@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
                     fontSize: 20,
                   ),
                   button: TextStyle(
-                    color: Colors.white,
+                    color: Colors.purple,
                   ),
                 )),
       ),
@@ -45,29 +45,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
   final List<Transaction> _transactions = [];
-
-  void _submitFormSpending() {
-    double amount = double.parse(amountController.text);
-    if (titleController.text.isEmpty || amount <= 0) {
-      return;
-    }
-    setState(() {
-      _transactions.add(
-        Transaction(
-          id: 't4',
-          title: titleController.text,
-          amount: amount,
-          date: DateTime.now(),
-        ),
-      );
-      amountController.clear();
-      titleController.clear();
-    });
-    // Navigator.of(context).pop();
-  }
 
   void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
@@ -76,14 +54,30 @@ class _HomeState extends State<Home> {
         return GestureDetector(
           onTap: () => {},
           child: FormSpending(
-            inputTitleController: titleController,
-            inputAmountController: amountController,
-            submitFormHandler: _submitFormSpending,
+            transactions: _transactions,
+            submitFormHandler: _submitFormHandler,
           ),
           behavior: HitTestBehavior.opaque,
         );
       },
     );
+  }
+
+  void _submitFormHandler(String title, double amount) {
+    if (title.isEmpty || amount <= 0) {
+      return;
+    }
+    setState(() {
+      _transactions.add(
+        Transaction(
+          id: 't4',
+          title: title,
+          amount: amount,
+          date: DateTime.now(),
+        ),
+      );
+    });
+    // Navigator.of(context).pop();
   }
 
   @override

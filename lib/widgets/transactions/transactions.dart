@@ -13,7 +13,6 @@ class Transactions extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        // Chart(),
         Container(
           padding: EdgeInsets.all(3),
           height: 500,
@@ -27,18 +26,6 @@ class Transactions extends StatelessWidget {
                   horizontal: 5,
                 ),
                 child: ListTile(
-                  // children: <Widget>[
-                  //   PriceDisplay(
-                  //     amount: _transactions[index].amount.toStringAsFixed(2),
-                  //   ),
-                  //   Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: <Widget>[
-                  //       TitleDisplay(title: _transactions[index].title),
-                  //       DateDisplay(date: _transactions[index].date),
-                  //     ],
-                  //   ),
-                  // ],
                   leading: PriceDisplay(
                     amount: _transactions[index].amount.toStringAsFixed(2),
                   ),

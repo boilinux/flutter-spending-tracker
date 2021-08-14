@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../models/transaction.dart';
 
 class FormSpending extends StatefulWidget {
-  final inputTitleController;
-  final inputAmountController;
-  final VoidCallback submitFormHandler;
+  final List<Transaction> transactions;
+  final Function submitFormHandler;
 
   FormSpending({
-    required this.inputTitleController,
-    required this.inputAmountController,
+    required this.transactions,
     required this.submitFormHandler,
   });
 
@@ -17,7 +16,9 @@ class FormSpending extends StatefulWidget {
 }
 
 class _FormSpendingState extends State<FormSpending> {
-  var _datePickerVal;
+  final inputTitleController = TextEditingController();
+  final inputAmountController = TextEditingController();
+  DateTime? _datePickerVal = null;
 
   void _presentDatePicker() {
     showDatePicker(
@@ -35,6 +36,16 @@ class _FormSpendingState extends State<FormSpending> {
     });
   }
 
+  void _submitData() {
+    String _title = inputTitleController.text;
+    double _amount = double.parse(inputAmountController.text);
+    widget.submitFormHandler(_title, _amount);
+    setState(() {
+      inputAmountController.clear();
+      inputTitleController.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -48,22 +59,24 @@ class _FormSpendingState extends State<FormSpending> {
               decoration: InputDecoration(
                 labelText: 'Title',
               ),
-              controller: widget.inputTitleController,
-              onSubmitted: (_) => widget.submitFormHandler(),
+              controller: inputTitleController,
+              onSubmitted: (_) => _submitData,
             ),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Amount',
               ),
-              controller: widget.inputAmountController,
+              controller: inputAmountController,
               keyboardType: TextInputType.number,
-              onSubmitted: (_) => widget.submitFormHandler(),
+              onSubmitted: (_) => _submitData,
             ),
             Row(
               children: [
-                Text(_datePickerVal == null
-                    ? 'No Date Chosen!'
-                    : DateFormat().add_yMd().format(_datePickerVal).toString()),
+                Expanded(
+                  child: Text(_datePickerVal == null
+                      ? 'No Date Chosen!'
+                      : 'Picked Date: ${DateFormat().add_yMd().format(_datePickerVal!).toString()}'),
+                ),
                 TextButton(
                     onPressed: _presentDatePicker,
                     child: Text(
@@ -77,7 +90,7 @@ class _FormSpendingState extends State<FormSpending> {
             ),
             Container(
               child: ElevatedButton(
-                onPressed: widget.submitFormHandler,
+                onPressed: _submitData,
                 child: Text('Add Transaction'),
               ),
             ),
