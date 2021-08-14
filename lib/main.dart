@@ -6,6 +6,7 @@ import './widgets/form/formspending.dart';
 import './widgets/form/toggleswitch.dart';
 import './widgets/chart/chart.dart';
 import './widgets/transactions/transactions.dart';
+import './widgets/displaylist/noresult.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +33,6 @@ class MyApp extends StatelessWidget {
                 fontSize: 18,
               ),
             ),
-        // errorColor: Colors.red,
         appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
                   headline6: TextStyle(
@@ -113,6 +113,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final _isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final appbar = AppBar(
       title: Text(
         'Personal Expenses',
@@ -142,11 +144,12 @@ class _HomeState extends State<Home> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          ToggleSwitch(
-            isChart: _isChart,
-            showChart: _showChart,
-          ),
-          _isChart
+          if (_isLandscape)
+            ToggleSwitch(
+              isChart: _isChart,
+              showChart: _showChart,
+            ),
+          _isChart || !_isLandscape
               ? Container(
                   height: (MediaQuery.of(context).size.height -
                           appbar.preferredSize.height -
@@ -163,24 +166,7 @@ class _HomeState extends State<Home> {
                           MediaQuery.of(context).padding.top) *
                       0.7,
                   child: _transactions.isEmpty
-                      ? Column(
-                          children: <Widget>[
-                            Text(
-                              'No Transactions added yet!',
-                              style: Theme.of(context).textTheme.title,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              height: cons.maxHeight * 0.6,
-                              child: Image.asset(
-                                'assets/images/waiting.png',
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          ],
-                        )
+                      ? NoResult()
                       : Transactions(
                           transactions: _transactions,
                           deleteActionHandler: _deleteTransaction,
