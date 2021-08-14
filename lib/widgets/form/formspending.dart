@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class FormSpending extends StatelessWidget {
+class FormSpending extends StatefulWidget {
   final inputTitleController;
   final inputAmountController;
   final VoidCallback submitFormHandler;
@@ -10,6 +11,29 @@ class FormSpending extends StatelessWidget {
     required this.inputAmountController,
     required this.submitFormHandler,
   });
+
+  @override
+  _FormSpendingState createState() => _FormSpendingState();
+}
+
+class _FormSpendingState extends State<FormSpending> {
+  var _datePickerVal;
+
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2021),
+      lastDate: DateTime.now(),
+    ).then((value) {
+      if (value == null) {
+        return;
+      }
+      setState(() {
+        _datePickerVal = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +48,36 @@ class FormSpending extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Title',
               ),
-              controller: inputTitleController,
-              onSubmitted: (_) => submitFormHandler(),
+              controller: widget.inputTitleController,
+              onSubmitted: (_) => widget.submitFormHandler(),
             ),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Amount',
               ),
-              controller: inputAmountController,
+              controller: widget.inputAmountController,
               keyboardType: TextInputType.number,
-              onSubmitted: (_) => submitFormHandler(),
+              onSubmitted: (_) => widget.submitFormHandler(),
+            ),
+            Row(
+              children: [
+                Text(_datePickerVal == null
+                    ? 'No Date Chosen!'
+                    : DateFormat().add_yMd().format(_datePickerVal).toString()),
+                TextButton(
+                    onPressed: _presentDatePicker,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    )),
+              ],
             ),
             Container(
-              child: TextButton(
-                onPressed: submitFormHandler,
+              child: ElevatedButton(
+                onPressed: widget.submitFormHandler,
                 child: Text('Add Transaction'),
               ),
             ),
