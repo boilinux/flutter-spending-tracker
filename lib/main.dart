@@ -1,11 +1,18 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './models/transaction.dart';
 import './widgets/form/formspending.dart';
+import './widgets/form/toggleswitch.dart';
 import './widgets/chart/chart.dart';
 import './widgets/transactions/transactions.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown,
+  // ]);
   runApp(MyApp());
 }
 
@@ -47,6 +54,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool _isChart = false;
   final List<Transaction> _transactions = [];
 
   void _startAddNewTransaction(BuildContext ctx) {
@@ -97,6 +105,12 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void _showChart(bool val) {
+    setState(() {
+      _isChart = val;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final appbar = AppBar(
@@ -128,45 +142,50 @@ class _HomeState extends State<Home> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
-            height: (MediaQuery.of(context).size.height -
-                    appbar.preferredSize.height -
-                    MediaQuery.of(context).padding.top) *
-                0.3,
-            padding: EdgeInsets.all(4),
-            child: Chart(
-              recentTransactions: _transactions,
-            ),
+          ToggleSwitch(
+            isChart: _isChart,
+            showChart: _showChart,
           ),
-          Container(
-            height: (MediaQuery.of(context).size.height -
-                    appbar.preferredSize.height -
-                    MediaQuery.of(context).padding.top) *
-                0.7,
-            child: _transactions.isEmpty
-                ? Column(
-                    children: <Widget>[
-                      Text(
-                        'No Transactions added yet!',
-                        style: Theme.of(context).textTheme.title,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 200,
-                        child: Image.asset(
-                          'assets/images/waiting.png',
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    ],
-                  )
-                : Transactions(
-                    transactions: _transactions,
-                    deleteActionHandler: _deleteTransaction,
+          _isChart
+              ? Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appbar.preferredSize.height -
+                          MediaQuery.of(context).padding.top) *
+                      0.3,
+                  padding: EdgeInsets.all(4),
+                  child: Chart(
+                    recentTransactions: _transactions,
                   ),
-          )
+                )
+              : Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appbar.preferredSize.height -
+                          MediaQuery.of(context).padding.top) *
+                      0.7,
+                  child: _transactions.isEmpty
+                      ? Column(
+                          children: <Widget>[
+                            Text(
+                              'No Transactions added yet!',
+                              style: Theme.of(context).textTheme.title,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              height: 200,
+                              child: Image.asset(
+                                'assets/images/waiting.png',
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          ],
+                        )
+                      : Transactions(
+                          transactions: _transactions,
+                          deleteActionHandler: _deleteTransaction,
+                        ),
+                )
         ],
       ),
     );
