@@ -99,6 +99,20 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final appbar = AppBar(
+      title: Text(
+        'Personal Expenses',
+      ),
+      actions: <Widget>[
+        IconButton(
+          onPressed: () => _startAddNewTransaction(context),
+          icon: Icon(
+            Icons.add,
+          ),
+        ),
+      ],
+    );
+
     return Scaffold(
       floatingActionButton: IconButton(
         icon: Icon(
@@ -110,26 +124,25 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
-      appBar: AppBar(
-        title: Text(
-          'Personal Expenses',
-        ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => _startAddNewTransaction(context),
-            icon: Icon(
-              Icons.add,
-            ),
-          ),
-        ],
-      ),
+      appBar: appbar,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Chart(
-            recentTransactions: _transactions,
+          Container(
+            height: (MediaQuery.of(context).size.height -
+                    appbar.preferredSize.height -
+                    MediaQuery.of(context).padding.top) *
+                0.3,
+            padding: EdgeInsets.all(4),
+            child: Chart(
+              recentTransactions: _transactions,
+            ),
           ),
           Container(
+            height: (MediaQuery.of(context).size.height -
+                    appbar.preferredSize.height -
+                    MediaQuery.of(context).padding.top) *
+                0.7,
             child: _transactions.isEmpty
                 ? Column(
                     children: <Widget>[
