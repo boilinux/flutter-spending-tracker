@@ -39,10 +39,11 @@ class _FormSpendingState extends State<FormSpending> {
   void _submitData() {
     String _title = inputTitleController.text;
     double _amount = double.parse(inputAmountController.text);
-    widget.submitFormHandler(_title, _amount);
+    widget.submitFormHandler(_title, _amount, _datePickerVal);
     setState(() {
       inputAmountController.clear();
       inputTitleController.clear();
+      _datePickerVal = null;
     });
   }
 

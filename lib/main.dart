@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import './models/transaction.dart';
 import './widgets/form/formspending.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
                 fontSize: 18,
               ),
             ),
+        // errorColor: Colors.red,
         appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
                   headline6: TextStyle(
@@ -63,21 +65,36 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void _submitFormHandler(String title, double amount) {
-    if (title.isEmpty || amount <= 0) {
+  String generateRandomString(int len) {
+    var r = Random();
+    return String.fromCharCodes(
+        List.generate(len, (index) => r.nextInt(33) + 89));
+  }
+
+  void _submitFormHandler(String title, double amount, DateTime choosenDate) {
+    if (title.isEmpty || amount <= 0 || choosenDate == Null) {
       return;
     }
+    String unique_id = generateRandomString(15);
     setState(() {
       _transactions.add(
         Transaction(
-          id: 't4',
+          id: unique_id,
           title: title,
           amount: amount,
-          date: DateTime.now(),
+          date: choosenDate,
         ),
       );
     });
     // Navigator.of(context).pop();
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((element) {
+        return element.id == id;
+      });
+    });
   }
 
   @override
@@ -132,10 +149,15 @@ class _HomeState extends State<Home> {
                       )
                     ],
                   )
-                : Transactions(_transactions),
+                : Transactions(
+                    transactions: _transactions,
+                    deleteActionHandler: _deleteTransaction,
+                  ),
           )
         ],
       ),
     );
   }
 }
+
+getRandomString(int i) {}

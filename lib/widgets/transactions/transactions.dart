@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import '../displaylist/dateDisplay.dart';
 import '../displaylist/priceDisplay.dart';
 import '../displaylist/titleDisplay.dart';
+import '../form/actionlist.dart';
 
 class Transactions extends StatelessWidget {
-  final List _transactions;
+  final List transactions;
+  final Function deleteActionHandler;
 
-  const Transactions(this._transactions);
+  const Transactions(
+      {required this.transactions, required this.deleteActionHandler});
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +29,17 @@ class Transactions extends StatelessWidget {
                   horizontal: 5,
                 ),
                 child: ListTile(
-                  leading: PriceDisplay(
-                    amount: _transactions[index].amount.toStringAsFixed(2),
-                  ),
-                  title: TitleDisplay(title: _transactions[index].title),
-                  subtitle: DateDisplay(date: _transactions[index].date),
-                ),
+                    leading: PriceDisplay(
+                      amount: transactions[index].amount.toStringAsFixed(2),
+                    ),
+                    title: TitleDisplay(title: transactions[index].title),
+                    subtitle: DateDisplay(date: transactions[index].date),
+                    trailing: ActionList(
+                        id: transactions[index].id,
+                        deleteTransactionHandler: deleteActionHandler)),
               );
             },
-            itemCount: _transactions.length,
+            itemCount: transactions.length,
           ),
         ),
       ],
