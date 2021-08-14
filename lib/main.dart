@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: null,
+            onPressed: () => _startAddNewTransaction(context),
             icon: Icon(
               Icons.add,
             ),
