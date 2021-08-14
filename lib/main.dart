@@ -151,7 +151,7 @@ class _HomeState extends State<Home> {
                   height: (MediaQuery.of(context).size.height -
                           appbar.preferredSize.height -
                           MediaQuery.of(context).padding.top) *
-                      0.3,
+                      0.6,
                   padding: EdgeInsets.all(4),
                   child: Chart(
                     recentTransactions: _transactions,
@@ -173,7 +173,7 @@ class _HomeState extends State<Home> {
                               height: 10,
                             ),
                             Container(
-                              height: 200,
+                              height: cons.maxHeight * 0.6,
                               child: Image.asset(
                                 'assets/images/waiting.png',
                                 fit: BoxFit.cover,
