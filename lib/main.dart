@@ -129,6 +129,10 @@ class _HomeState extends State<Home> {
       ],
     );
 
+    double _mediaQueryMultiplier = 0.0;
+
+    _mediaQueryMultiplier = !_isLandscape ? 0.3 : 0.7;
+
     return Scaffold(
       floatingActionButton: IconButton(
         icon: Icon(
@@ -154,7 +158,7 @@ class _HomeState extends State<Home> {
                   height: (MediaQuery.of(context).size.height -
                           appbar.preferredSize.height -
                           MediaQuery.of(context).padding.top) *
-                      0.6,
+                      _mediaQueryMultiplier,
                   padding: EdgeInsets.all(4),
                   child: Chart(
                     recentTransactions: _transactions,
@@ -164,7 +168,7 @@ class _HomeState extends State<Home> {
                   height: (MediaQuery.of(context).size.height -
                           appbar.preferredSize.height -
                           MediaQuery.of(context).padding.top) *
-                      0.7,
+                      _mediaQueryMultiplier,
                   child: _transactions.isEmpty
                       ? NoResult()
                       : Transactions(
