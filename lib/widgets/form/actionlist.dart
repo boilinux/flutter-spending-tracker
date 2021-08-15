@@ -7,10 +7,18 @@ class ActionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.delete),
-      onPressed: () => deleteTransactionHandler(id),
-      color: Theme.of(context).errorColor,
-    );
+    bool _isShow = MediaQuery.of(context).size.width > 360 ? true : false;
+
+    return _isShow
+        ? ElevatedButton.icon(
+            icon: Icon(Icons.delete),
+            onPressed: () => deleteTransactionHandler(id),
+            label: Text('Delete'),
+          )
+        : IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () => deleteTransactionHandler(id),
+            color: Theme.of(context).errorColor,
+          );
   }
 }

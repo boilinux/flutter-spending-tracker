@@ -1,14 +1,19 @@
 import 'dart:math';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import './models/transaction.dart';
 import './widgets/form/formspending.dart';
 import './widgets/form/toggleswitch.dart';
 import './widgets/chart/chart.dart';
 import './widgets/transactions/transactions.dart';
 import './widgets/displaylist/noresult.dart';
+import './widgets/buttons/mainfloatingbutton.dart';
 
 void main() {
+  // code orientation for Portrait Only!
   // WidgetsFlutterBinding.ensureInitialized();
   // SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,
@@ -113,8 +118,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final _isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final _mediaQuery = MediaQuery.of(context);
+    final _isLandscape = _mediaQuery.orientation == Orientation.landscape;
     final appbar = AppBar(
       title: Text(
         'Personal Expenses',
@@ -129,54 +134,52 @@ class _HomeState extends State<Home> {
       ],
     );
 
-    double _mediaQueryMultiplier = 0.0;
+    double _mediaQueryMultiplier = !_isLandscape ? 0.3 : 0.7;
 
-    _mediaQueryMultiplier = !_isLandscape ? 0.3 : 0.7;
+    final widgetTransactions = Container(
+      height: (_mediaQuery.size.height -
+              appbar.preferredSize.height -
+              _mediaQuery.padding.top) *
+          _mediaQueryMultiplier,
+      child: _transactions.isEmpty
+          ? NoResult()
+          : Transactions(
+              transactions: _transactions,
+              deleteActionHandler: _deleteTransaction,
+            ),
+    );
 
     return Scaffold(
-      floatingActionButton: IconButton(
-        icon: Icon(
-          Icons.add_circle_sharp,
-          size: 50,
-          color: Theme.of(context).primaryColor,
-        ),
-        onPressed: () => _startAddNewTransaction(context),
-      ),
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : MainFloatingButton(context, _startAddNewTransaction),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
       appBar: appbar,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          if (_isLandscape)
-            ToggleSwitch(
-              isChart: _isChart,
-              showChart: _showChart,
-            ),
-          _isChart || !_isLandscape
-              ? Container(
-                  height: (MediaQuery.of(context).size.height -
-                          appbar.preferredSize.height -
-                          MediaQuery.of(context).padding.top) *
-                      _mediaQueryMultiplier,
-                  padding: EdgeInsets.all(4),
-                  child: Chart(
-                    recentTransactions: _transactions,
-                  ),
-                )
-              : Container(
-                  height: (MediaQuery.of(context).size.height -
-                          appbar.preferredSize.height -
-                          MediaQuery.of(context).padding.top) *
-                      _mediaQueryMultiplier,
-                  child: _transactions.isEmpty
-                      ? NoResult()
-                      : Transactions(
-                          transactions: _transactions,
-                          deleteActionHandler: _deleteTransaction,
-                        ),
-                )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            if (_isLandscape)
+              ToggleSwitch(
+                isChart: _isChart,
+                showChart: _showChart,
+              ),
+            _isChart || !_isLandscape
+                ? Container(
+                    height: (_mediaQuery.size.height -
+                            appbar.preferredSize.height -
+                            _mediaQuery.padding.top) *
+                        _mediaQueryMultiplier,
+                    padding: EdgeInsets.all(4),
+                    child: Chart(
+                      recentTransactions: _transactions,
+                    ),
+                  )
+                : widgetTransactions,
+            if (!_isLandscape) widgetTransactions
+          ],
+        ),
       ),
     );
   }

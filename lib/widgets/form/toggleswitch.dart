@@ -15,7 +15,7 @@ class ToggleSwitch extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text('Show Chart'),
-        Switch(value: isChart, onChanged: (val) => showChart(val)),
+        Switch.adaptive(value: isChart, onChanged: (val) => showChart(val)),
       ],
     );
   }
