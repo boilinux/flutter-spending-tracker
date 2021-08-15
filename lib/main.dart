@@ -184,5 +184,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-getRandomString(int i) {}

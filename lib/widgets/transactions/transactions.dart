@@ -13,36 +13,26 @@ class Transactions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(3),
-          height: 500,
-          width: double.infinity,
-          child: ListView.builder(
-            itemBuilder: (e, index) {
-              return Card(
-                elevation: 5,
-                margin: EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 5,
-                ),
-                child: ListTile(
-                    leading: PriceDisplay(
-                      amount: transactions[index].amount.toStringAsFixed(2),
-                    ),
-                    title: TitleDisplay(title: transactions[index].title),
-                    subtitle: DateDisplay(date: transactions[index].date),
-                    trailing: ActionList(
-                        id: transactions[index].id,
-                        deleteTransactionHandler: deleteActionHandler)),
-              );
-            },
-            itemCount: transactions.length,
+    return ListView.builder(
+      itemBuilder: (e, index) {
+        return Card(
+          elevation: 5,
+          margin: EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 5,
           ),
-        ),
-      ],
+          child: ListTile(
+              leading: PriceDisplay(
+                amount: transactions[index].amount.toStringAsFixed(2),
+              ),
+              title: TitleDisplay(title: transactions[index].title),
+              subtitle: DateDisplay(date: transactions[index].date),
+              trailing: ActionList(
+                  id: transactions[index].id,
+                  deleteTransactionHandler: deleteActionHandler)),
+        );
+      },
+      itemCount: transactions.length,
     );
   }
 }
